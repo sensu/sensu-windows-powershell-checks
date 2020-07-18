@@ -50,14 +50,14 @@ if (!$Available) {
 
 if ($Available) {
    if ($Available.statuscode -eq 200) {
-      if ($ContentSubString) {
+      if ($ContentSubstring) {
         $output=$Available.ToString()
-        $result = $output -match $ContentSubString
+        $result = $output -match $ContentSubstring
         if ($result) {
-          Write-Host OK: $CheckAddress is available and Content contains $ContentSubString
+          Write-Host OK: $CheckAddress is available and Content contains $ContentSubstring
           Exit 0
         } else {
-          Write-Host CRITICAL: $CheckAddress is available but Content does not contain $ContentSubString
+          Write-Host CRITICAL: $CheckAddress is available but Content does not contain $ContentSubstring
           Exit 2
         }
       } else {
