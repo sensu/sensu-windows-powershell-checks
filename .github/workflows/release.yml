@@ -22,8 +22,8 @@ jobs:
         id: get_release
         uses: bruceadams/get-release@v1
 
-      - name: Upload Release Asset
-        id: upload-release-asset 
+      - name: Upload Release Tarball 
+        id: upload-release-tarball 
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -36,8 +36,8 @@ jobs:
           asset_path: ./sensu-windows-powershell-checks.tar.gz
           asset_name: sensu-windows-powershell-checks.tar.gz
           asset_content_type: application/gzip
-      - name: Upload Release Asset
-        id: upload-release-asset 
+      - name: Upload Release Checksums
+        id: upload-release-checksums 
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
