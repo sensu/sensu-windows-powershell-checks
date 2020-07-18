@@ -1,0 +1,10 @@
+---
+description: "#{repo}"
+builds:
+- platform: "Windows"
+  arch: "noarch"
+  asset_filename: "sensu-windows-powershell-checks.tar.gz"
+  sha_filename: "sha512-checksums.txt"
+  filter:
+  -  "entity.system.os == 'windows'"
+
