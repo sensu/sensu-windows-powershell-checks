@@ -15,4 +15,5 @@ Required: Use valid http or https URL ex:  `https://sensu.io`
 #### Param 2: ContentSubString
 Optional: Substring to match inside returned URL content.
 
-
+#### Asset command usage
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-http.ps1 <checkaddress url> <optional content substring> 
