@@ -10,13 +10,44 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build project # This would actually build your project, using zip for an example artifact
+
+      - name: Create tarball 
         run: |
           tar cvzf sensu-windows-powershell-checks.tar.gz bin README.md LICENSE
+      - name: Create checksum
+        run: |
+          sha512sum sensu-windows-powershell-checks.tar.gz > sha512-checksums.txt
+
+      - name: Get Release
+        id: get_release
+        uses: bruceadams/get-release@v1
+
       - name: Upload Release Asset
-        id: upload-release-asset
-        uses: AButler/upload-release-assets@v2.0
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: 'sensu-windows-powershell-checks.tar.gz'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          upload_url: ${{ steps.get_release.outputs.upload_url }} 
+          # This pulls from the Get Release step above, 
+          # referencing it's ID to get its outputs object, which include a `upload_url`. 
+          # See this blog post for more info: 
+          # https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./sensu-windows-powershell-checks.tar.gz
+          asset_name: sensu-windows-powershell-checks.tar.gz
+          asset_content_type: application/gzip
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }} 
+          # This pulls from the Get Release step above, 
+          # referencing it's ID to get its outputs object, which include a `upload_url`. 
+          # See this blog post for more info: 
+          # https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./sha512-checksums.txt
+          asset_name: sha512-checksums.txt
+          asset_content_type: text/plain
 
