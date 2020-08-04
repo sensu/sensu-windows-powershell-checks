@@ -138,14 +138,14 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 ```
 > check-windows-event-disk-directory.ps1 -?
 NAME
-    /home/jspaleta/sources/github/jspaleta/sensu-windows-powershell-checks/bin/check-windows-directory.ps1
+    check-windows-directory.ps1
     
 SYNOPSIS
     Checks if  directory exist
     
     
 SYNTAX
-    /home/jspaleta/sources/github/jspaleta/sensu-windows-powershell-checks/bin/check-windows-directory.ps1 [-Dir] 
+    check-windows-directory.ps1 [-Dir] 
     <String> [<CommonParameters>]
     
     
@@ -161,6 +161,36 @@ DESCRIPTION
 
 #### Asset command usage
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-directory.ps1 -Dir C:\Users\dir
+
+
+### check-windows-cpu-load.ps1
+
+#### Help
+```
+> check-windows-event-disk-cpu-load.ps1 -?
+NAME
+    check-windows-cpu-load.ps1
+    
+SYNOPSIS
+    This plugin collects the CPU Usage and compares against the WARNING and CRITICAL thresholds.
+    
+    
+SYNTAX
+    check-windows-cpu-load.ps1 [-WARNING] 
+    <Int32> [-CRITICAL] <Int32> [<CommonParameters>]
+
+```
+
+#### Param 1: Warning
+    Required. Warning cpu load percentage threshold
+
+#### Param 1: Critical
+    Required. Critical cpu load percentage threshold
+
+
+#### Asset command usage
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-cpu-load.ps1 90 95
+
 
 
 

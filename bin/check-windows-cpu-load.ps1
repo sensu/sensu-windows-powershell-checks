@@ -1,3 +1,18 @@
+<#
+.SYNOPSIS
+   This plugin collects the CPU Usage and compares against the WARNING and CRITICAL thresholds.
+.DESCRIPTION
+   This plugin collects the CPU Usage and compares against the WARNING and CRITICAL thresholds.
+.Notes
+    FileName    : check-windows-cpu-load.ps1
+.PARAMETER Warning
+    Required. Warning cpu load percentage threshold
+.PARAMETER Critical
+    Required. Critical cpu load percentage threshold
+.EXAMPLE
+    powershell.exe -file check-windows-directory.ps1 90 95
+#>
+
 #
 #   check-windows-cpu-load.ps1
 #
