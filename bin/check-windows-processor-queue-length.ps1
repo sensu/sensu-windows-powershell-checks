@@ -1,3 +1,18 @@
+<#
+.SYNOPSIS
+   This plugin collects the Processor Queue Length and compares against the WARNING and CRITICAL thresholds.
+.DESCRIPTION
+   This plugin collects the Processor Queue Length and compares against the WARNING and CRITICAL thresholds.
+.Notes
+    FileName    : check-windows-processor-queue-length.ps1
+.PARAMETER Warning
+    Required. Warning processor queue length threshold
+.PARAMETER Critical
+    Required. Critical processor queue length threshold
+.EXAMPLE
+    powershell.exe -file check-windows-processor-queue-length.ps1 5 10
+#>
+
 #
 #   check-windows-processor-queue-length.ps1
 #

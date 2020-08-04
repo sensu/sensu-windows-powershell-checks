@@ -245,4 +245,33 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 
 
 
+### check-windows-processor-queue-length.ps1
+
+#### Help
+```
+> check-windows-processor-queue-length.ps1 -?
+NAME
+    check-windows-processor-queue-length.ps1
+    
+SYNOPSIS
+    This plugin collects the Processor Queue Length and compares against the WARNING and CRITICAL thresholds.
+    
+    
+SYNTAX
+    check-windows-processor-queue-length.ps1 [-WARNING] 
+    <Int32> [-CRITICAL] <Int32> [<CommonParameters>]
+
+```
+
+#### Param 1: Warning
+    Required. Warning processor queue length threshold
+
+#### Param 1: Critical
+    Required. Critical processor queue length threshold
+
+
+#### Asset command usage
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-processor-queue-length.ps1 5 10
+
+
 
