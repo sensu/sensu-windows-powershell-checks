@@ -22,7 +22,7 @@ Required. Use valid http or https URL ex:  `https://sensu.io`
 #### Param 2: ContentSubString
 Optional. Substring to match inside returned URL content.
 
-#### Asset command example
+#### Asset command usage
 ```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-http.ps1  https://sensu.io monitoring
 ```
@@ -60,8 +60,9 @@ DESCRIPTION
     Optional. DeviceID regular expression to ignore.
 
 #### Asset command usage
+```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-disk.ps1 90 95
-
+```
 
 ### check-windows-event-log.ps1
 
@@ -93,8 +94,9 @@ DESCRIPTION
     Example -LogName Application -Pattern error
 
 #### Asset command usage
+```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-event-log.ps1 -LogName Application -Pattern error
-
+```
 
 ### check-windows-disk-writeable.ps1
 
@@ -129,8 +131,9 @@ DESCRIPTION
     Optional. Test file to create on each disk to test it is writeable
 
 #### Asset command usage
+```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-disk-writeable.ps1 -DriveType "3,5" -Ignore "A,B" -TestFile '\test.txt'
-
+```
 
 ### check-windows-directory.ps1
 
@@ -160,8 +163,9 @@ DESCRIPTION
 
 
 #### Asset command usage
+```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-directory.ps1 -Dir C:\Users\dir
-
+```
 
 ### check-windows-ram.ps1
 
@@ -188,8 +192,9 @@ SYNTAX
 
 
 #### Asset command usage
+```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-ram.ps1 90 95
-
+```
 
 ### check-windows-process.ps1
 
@@ -212,8 +217,9 @@ SYNTAX
     Required. Name of user process to check
 
 #### Asset command usage
+```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-process.ps1 powershell
-
+```
 
 ### check-windows-cpu-load.ps1
 
@@ -241,8 +247,9 @@ SYNTAX
 
 
 #### Asset command usage
+```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-cpu-load.ps1 90 95
-
+```
 
 
 ### check-windows-processor-queue-length.ps1
@@ -271,8 +278,9 @@ SYNTAX
 
 
 #### Asset command usage
+```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-processor-queue-length.ps1 5 10
-
+```
 
 ### check-windows-pagefile.ps1
 
@@ -299,8 +307,9 @@ SYNTAX
 
 
 #### Asset command usage
+```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-pagefile.ps1 75 85
-
+```
 
 ### check-windows-log.ps1
 
@@ -315,7 +324,7 @@ SYNOPSIS
     Returns all occurances of pattern in log file
     
 SYNTAX
-    check-windows-event-log.ps1 [-LogPath] <String> [-Pattern] <String> [<CommonParameters>]
+    check-windows-log.ps1 [-LogPath] <String> [-Pattern] <String> [<CommonParameters>]
     
 DESCRIPTION
     Checks log file for pattern and returns line(s) containing pattern
@@ -331,8 +340,9 @@ DESCRIPTION
     Example -LogName Application -Pattern error
 
 #### Asset command usage
+```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-log.ps1 -LogName example.log -Pattern error
-
+```
 
 ### check-windows-service.ps1
 
@@ -355,6 +365,7 @@ SYNTAX
     Required.  Service name to check.
 
 #### Asset command usage
+```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-service.ps1 sshd
-
+```
 
