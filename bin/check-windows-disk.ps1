@@ -1,3 +1,22 @@
+<#
+.SYNOPSIS
+   This plugin collects the Disk Usage and and compares against the WARNING and CRITICAL thresholds.
+.DESCRIPTION
+   This plugin collects the Disk Usage and and compares against the WARNING and CRITICAL thresholds.
+.Notes
+    FileName    : check-windows-disk.ps1
+.PARAMETER Warning
+    Required. Warning disk usage percentage threshold.
+    Example -Warning 90
+.PARAMETER Critical
+    Required. Critical disk usage percentage threshold.
+    Example -Critical 95
+.PARAMETER Ignore
+    Optional. DeviceID regular expression to ignore.
+.EXAMPLE
+    powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-disk.ps1 90 95
+#>
+
 #
 #   check-windows-disk.ps1
 #

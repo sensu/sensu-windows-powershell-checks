@@ -6,14 +6,93 @@ Collection of Windows Powershell checks for Sensu
 #### Help
 ```
 > check-windows-http.ps1 -?
-check-windows-http.ps1 [-CheckAddress] <string> [[-ContentSubstring] <string>] [<CommonParameters>]
+NAME
+    check-windows-http.ps1
+    
+SYNOPSIS
+    This plugin checks availability of url provided as param. Optionally checks if substring exists in url content
+    
+SYNTAX
+    check-windows-http.ps1 [-CheckAddress] <String> [[-ContentSubstring] <String>] [<CommonParameters>]
 ```
 
 #### Param 1: CheckAddress
-Required: Use valid http or https URL ex:  `https://sensu.io`
+Required. Use valid http or https URL ex:  `https://sensu.io`
 
 #### Param 2: ContentSubString
-Optional: Substring to match inside returned URL content.
+Optional. Substring to match inside returned URL content.
+
+#### Asset command example
+```
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-http.ps1  https://sensu.io monitoring
+```
+
+### check-windows-disk.ps1
+
+#### Help
+```
+> check-windows-event-disk.ps1 -?
+NAME
+    check-windows-disk.ps1
+    
+SYNOPSIS
+    This plugin collects the Disk Usage and and compares against the WARNING and CRITICAL thresholds.
+    
+    
+SYNTAX
+    check-windows-disk.ps1 [-WARNING] <Int32> [-CRITICAL] <Int32> [[-IGNORE] <String>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    This plugin collects the Disk Usage and and compares against the WARNING and CRITICAL thresholds.
+
+```
+
+#### Param 1: Warning
+    Required. Warning disk usage percentage threshold.
+    Example -Warning 90
+
+#### Param 2: Critical
+    Required. Critical disk usage percentage threshold.
+    Example -Critical 95
+
+#### Param 3: Ignore
+    Optional. DeviceID regular expression to ignore.
 
 #### Asset command usage
-Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-http.ps1 <checkaddress url> <optional content substring> 
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-disk.ps1 90 95
+
+
+### check-windows-event-log.ps1
+
+#### Help
+```
+> check-windows-event-log.ps1 -?
+
+NAME
+    check-windows-event-log.ps1
+    
+SYNOPSIS
+    Returns all occurances of pattern in log file
+    
+    
+SYNTAX
+    check-windows-event-log.ps1 [-LogName] <String> [-Pattern] <String> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Checks Event log for pattern and returns the number criticals and warnings that match that pattern.
+```
+
+#### Param 1: LogName
+    Required. The name of the log file.
+    Example -LogName Application
+
+#### Param 2: Pattern
+    Required. The pattern you want to search for.
+    Example -LogName Application -Pattern error
+
+#### Asset command usage
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-event-log.ps1 -LogName Application -Pattern error
+
+
