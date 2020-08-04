@@ -1,3 +1,20 @@
+<#
+.SYNOPSIS
+   This plugin checks whether a User-inputted process is running or not.
+
+.DESCRIPTION
+   This plugin checks whether a User-inputted process is running or not.
+
+.Notes
+    FileName    : check-windows-process.ps1
+
+.PARAMETER ProcessName
+    Required.  User process name to check.
+
+.EXAMPLE
+    powershell.exe -file check-windows-process.ps1 powershell
+#>
+
 #
 #   check-windows-process.ps1
 #

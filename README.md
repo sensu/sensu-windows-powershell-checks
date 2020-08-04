@@ -191,6 +191,30 @@ SYNTAX
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-ram.ps1 90 95
 
 
+### check-windows-process.ps1
+
+#### Help
+```
+> check-windows-process.ps1 -?
+NAME
+    check-windows-process.ps1
+    
+SYNOPSIS
+    This plugin checks whether a User-inputted process is running or not.
+    
+    
+SYNTAX
+    check-windows-process.ps1 [-ProcessName] <String> [<CommonParameters>]
+
+```
+
+#### Param 1: ProcessName
+    Required. Name of user process to check
+
+#### Asset command usage
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-process.ps1 powershell
+
+
 ### check-windows-cpu-load.ps1
 
 #### Help
