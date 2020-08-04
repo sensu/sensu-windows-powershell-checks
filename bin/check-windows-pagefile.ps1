@@ -1,3 +1,18 @@
+<#
+.SYNOPSIS
+   This plugin collects the Pagefile Usage and compares against the WARNING and CRITICAL thresholds.
+.DESCRIPTION
+   This plugin collects the Pagefile Usage and compares against the WARNING and CRITICAL thresholds.
+.Notes
+    FileName    : check-windows-pagefile.ps1
+.PARAMETER Warning
+    Required. Warning pagefile usage percentage threshold
+.PARAMETER Critical
+    Required. Critical pagefile user percentage threshold
+.EXAMPLE
+    powershell.exe -file check-windows-pagefile.ps1 75 85
+#>
+
 #
 #   check-windows-pagefile.ps1
 #

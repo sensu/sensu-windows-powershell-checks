@@ -274,4 +274,31 @@ SYNTAX
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-processor-queue-length.ps1 5 10
 
 
+### check-windows-pagefile.ps1
+
+#### Help
+```
+> check-windows-pagefile.ps1 -?
+NAME
+    check-windows-pagefile.ps1
+    
+SYNOPSIS
+    This plugin collects the Pagefile Usage and compares against the WARNING and CRITICAL thresholds.
+    
+SYNTAX
+    check-windows-pagefile.ps1 [-WARNING] 
+    <Int32> [-CRITICAL] <Int32> [<CommonParameters>]
+
+```
+
+#### Param 1: Warning
+    Required. Warning pagefile usage percentage threshold
+
+#### Param 1: Critical
+    Required. Critical pagefile usage percentage threshold
+
+
+#### Asset command usage
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-pagefile.ps1 75 85
+
 
