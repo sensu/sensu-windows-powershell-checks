@@ -1,3 +1,26 @@
+<#
+.SYNOPSIS
+   This plugin collects the mounted logical disks and tests they are writeable.
+.DESCRIPTION
+   This plugin collects the mounted logical disks and tests they are writeable.
+.Notes
+    FileName    : check-windows-disk-writeable.ps1
+.PARAMETER DriveType
+    Optional. DriveType, 
+    see available options at https://msdn.microsoft.com/en-us/library/windows/desktop/aa364939(v=vs.85).aspx
+    Specify multiple values as a comma separated string, e.g. "3,5"
+.PARAMETER Ignore
+    Optional. Disk letters to ignore
+    Specify multiple values as a comma separated string, e.g. "C,D"
+.PARAMETER TestFile
+    Optional. Test file to create on each disk to test it is writeable
+.EXAMPLE
+    powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -File check-windows-disk-writeable.ps1
+.EXAMPLE
+    powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -File check-windows-disk-writeable.ps1 -DriveType "3,5" -Ignore "A,B" -TestFile '\test.txt'
+#>
+
+
 #
 #   check-windows-disk-writeable.ps1
 #

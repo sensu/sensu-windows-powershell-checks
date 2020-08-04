@@ -96,3 +96,41 @@ DESCRIPTION
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-event-log.ps1 -LogName Application -Pattern error
 
 
+### check-windows-disk-writeable.ps1
+
+#### Help
+```
+> check-windows-event-disk-writeable.ps1 -?
+NAME
+    check-windows-disk-writeable.ps1
+    
+SYNOPSIS
+    This plugin collects the mounted logical disks and tests they are writeable.
+    
+    
+SYNTAX
+    check-windows-disk-writeable.ps1 [[-DriveType] <String>] [[-Ignore] <String>] 
+      [[-TestFile] <String>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    This plugin collects the mounted logical disks and tests they are writeable.
+
+```
+
+#### Param 1: DriveType
+    Optional. DriveType,
+    see available options at https://msdn.microsoft.com/en-us/library/windows/desktop/aa364939(v=vs.85).aspx
+    Specify multiple values as a comma separated string, e.g. "3,5"
+#### Param 2: Ignore
+    Optional. Disk letters to ignore
+    Specify multiple values as a comma separated string, e.g. "C,D"
+#### Param 3: TestFile
+    Optional. Test file to create on each disk to test it is writeable
+
+#### Asset command usage
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-disk-writeable.ps1 -DriveType "3,5" -Ignore "A,B" -TestFile '\test.txt'
+
+
+
+
