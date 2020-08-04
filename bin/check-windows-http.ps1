@@ -1,4 +1,21 @@
-#
+<#
+.SYNOPSIS 
+    This plugin checks availability of url provided as param. Optionally checks if substring exists in url content 
+.DESCRIPTION
+    This plugin checks availability of link provided as param. Optionally checks if substring exists in url content 
+.Notes
+    FileName    : check-windows-http.ps1
+    Author      : Patrice White - patrice.white@ge.com
+.PARAMETER CheckAddress 
+    Required. Url string to check.
+    Example -CheckAddress https://sensu.io
+.PARAMETER ContentSubstring
+    Optional. Substring to match inside returned URL content.
+    Example -CheckAddress https://sensu.io -ContentSubstring monitoring
+.EXAMPLE
+    powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-http.ps1 https://sensu.io monitoring
+#>
+
 #   check-windows-http.ps1
 #
 # DESCRIPTION:
@@ -24,6 +41,8 @@
 #   Released under the same terms as Sensu (the MIT license); see LICENSE for details.
 #
 #Requires -Version 3.0
+
+
 [CmdletBinding()]
 Param(
   [Parameter(Mandatory=$True,Position=1)]
