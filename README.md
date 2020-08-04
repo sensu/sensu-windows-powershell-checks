@@ -132,5 +132,35 @@ DESCRIPTION
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-disk-writeable.ps1 -DriveType "3,5" -Ignore "A,B" -TestFile '\test.txt'
 
 
+### check-windows-directory.ps1
+
+#### Help
+```
+> check-windows-event-disk-directory.ps1 -?
+NAME
+    /home/jspaleta/sources/github/jspaleta/sensu-windows-powershell-checks/bin/check-windows-directory.ps1
+    
+SYNOPSIS
+    Checks if  directory exist
+    
+    
+SYNTAX
+    /home/jspaleta/sources/github/jspaleta/sensu-windows-powershell-checks/bin/check-windows-directory.ps1 [-Dir] 
+    <String> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Checks if directory exist
+
+```
+
+#### Param 1: Dir
+    Required. The name of the directory.
+    Example -Dir C:\Users\dir
+
+
+#### Asset command usage
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-directory.ps1 -Dir C:\Users\dir
+
 
 
