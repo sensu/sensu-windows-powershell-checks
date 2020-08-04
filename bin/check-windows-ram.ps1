@@ -1,3 +1,18 @@
+<#
+.SYNOPSIS
+   This plugin collects the RAM Usage and compares against the WARNING and CRITICAL thresholds.
+.DESCRIPTION
+   This plugin collects the RAM Usage and compares against the WARNING and CRITICAL thresholds.
+.Notes
+    FileName    : check-windows-ram.ps1
+.PARAMETER Warning
+    Required. Warning ram usage percentage threshold
+.PARAMETER Critical
+    Required. Critical ram usage percentage threshold
+.EXAMPLE
+    powershell.exe -file check-windows-ram.ps1 90 95
+#>
+
 #
 #   check-windows-ram.ps1
 #

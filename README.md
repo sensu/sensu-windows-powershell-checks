@@ -31,7 +31,7 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 
 #### Help
 ```
-> check-windows-event-disk.ps1 -?
+> check-windows-disk.ps1 -?
 NAME
     check-windows-disk.ps1
     
@@ -100,7 +100,7 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 
 #### Help
 ```
-> check-windows-event-disk-writeable.ps1 -?
+> check-windows-disk-writeable.ps1 -?
 NAME
     check-windows-disk-writeable.ps1
     
@@ -136,7 +136,7 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 
 #### Help
 ```
-> check-windows-event-disk-directory.ps1 -?
+> check-windows-disk-directory.ps1 -?
 NAME
     check-windows-directory.ps1
     
@@ -163,11 +163,39 @@ DESCRIPTION
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-directory.ps1 -Dir C:\Users\dir
 
 
+### check-windows-ram.ps1
+
+#### Help
+```
+> check-windows-ram.ps1 -?
+NAME
+    check-windows-ram.ps1
+
+SYNOPSIS
+    This plugin collects the RAM Usage and compares against the WARNING and CRITICAL thresholds.
+    
+SYNTAX
+    check-windows-ram.ps1 [-WARNING] 
+    <Int32> [-CRITICAL] <Int32> [<CommonParameters>]
+
+```
+
+#### Param 1: Warning
+    Required. Warning ram usage percentage threshold
+
+#### Param 1: Critical
+    Required. Critical rame usage percentage threshold
+
+
+#### Asset command usage
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-ram.ps1 90 95
+
+
 ### check-windows-cpu-load.ps1
 
 #### Help
 ```
-> check-windows-event-disk-cpu-load.ps1 -?
+> check-windows-cpu-load.ps1 -?
 NAME
     check-windows-cpu-load.ps1
     
