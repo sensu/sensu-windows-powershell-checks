@@ -302,3 +302,59 @@ SYNTAX
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-pagefile.ps1 75 85
 
 
+### check-windows-log.ps1
+
+#### Help
+```
+> check-windows-log.ps1 -?
+
+NAME
+    check-windows-log.ps1
+    
+SYNOPSIS
+    Returns all occurances of pattern in log file
+    
+SYNTAX
+    check-windows-event-log.ps1 [-LogPath] <String> [-Pattern] <String> [<CommonParameters>]
+    
+DESCRIPTION
+    Checks log file for pattern and returns line(s) containing pattern
+
+```
+
+#### Param 1: LogName
+    Required. The name of the log file.
+    Example -LogName Application
+
+#### Param 2: Pattern
+    Required. The pattern you want to search for.
+    Example -LogName Application -Pattern error
+
+#### Asset command usage
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-log.ps1 -LogName example.log -Pattern error
+
+
+### check-windows-service.ps1
+
+#### Help
+```
+> check-windows-service.ps1 -?
+NAME
+    check-windows-service.ps1
+    
+SYNOPSIS
+    This plugin checks whether a User-inputted Windows service is running or not.
+    
+    
+SYNTAX
+    check-windows-service.ps1 [-ServiceName] <String> [<CommonParameters>]
+
+```
+
+#### Param 1: ServiceName
+    Required.  Service name to check.
+
+#### Asset command usage
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-service.ps1 sshd
+
+

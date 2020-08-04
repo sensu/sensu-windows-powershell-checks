@@ -1,3 +1,20 @@
+<#
+.SYNOPSIS
+   This plugin checks whether a User-inputted Windows service is running or not.
+
+.DESCRIPTION
+   This plugin checks whether a User-inputted Windows service is running or not.
+
+.Notes
+    FileName    : check-windows-service.ps1
+
+.PARAMETER ServiceName
+    Required.  Service name to check.
+
+.EXAMPLE
+    powershell.exe -file check-windows-service.ps1 sshd 
+#>
+
 #
 #   check-windows-service.ps1
 #
