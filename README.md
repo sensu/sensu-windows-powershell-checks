@@ -339,17 +339,17 @@ DESCRIPTION
 
 ```
 
-#### Param 1: LogName
-    Required. The name of the log file.
-    Example -LogName Application
+#### Param 1: LogPath
+    Required. The path of the log file.
+    Example -LogPath example.log
 
 #### Param 2: Pattern
     Required. The pattern you want to search for.
-    Example -LogName Application -Pattern error
+    Example -LogPath example.log -Pattern error
 
 #### Asset command usage
 ```
-Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-log.ps1 -LogName example.log -Pattern error
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-log.ps1 -LogPath example.log -Pattern error
 ```
 
 ### check-windows-service.ps1
