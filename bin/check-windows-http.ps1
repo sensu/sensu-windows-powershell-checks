@@ -56,7 +56,7 @@ $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
 try {
-  $Available = Invoke-WebRequest $CheckAddress -ErrorAction SilentlyContinue
+  $Available = Invoke-WebRequest -UseBasicParsing $CheckAddress -ErrorAction SilentlyContinue
 }
 
 catch {
