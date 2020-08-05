@@ -51,6 +51,7 @@ Param(
    [string]$ContentSubstring
 )
 
+$global:ProgressPreference = "SilentlyContinue"
 $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
