@@ -78,8 +78,8 @@ SYNOPSIS
     
     
 SYNTAX
-    check-windows-event-log.ps1 [-LogName] <String> [-Pattern] <String> [<CommonParameters>]
-    
+    check-windows-event-log.ps1 [-LogName] <String> [-Pattern] <String> 
+    [[-CriticalLevel] <Int32>] [[-WarningLevel] <Int32>] [<CommonParameters>]
     
 DESCRIPTION
     Checks Event log for pattern and returns the number criticals and warnings that match that pattern.
@@ -92,6 +92,14 @@ DESCRIPTION
 #### Param 2: Pattern
     Required. The pattern you want to search for.
     Example -LogName Application -Pattern error
+
+#### Param 3: CriticalLevel
+    Optional. Integer Event Log Level to trigger Critical return status. Defaults to 2 = Error.
+    Example -LogName Application -Pattern error -CriticalLevel 2
+
+#### Param 4: WarningLevel
+    Optional. Integer Event Log Level to trigger Warning return status.  Defaults to 3 = Warning.
+    Example -LogName Application -Pattern error -WarningLevel 3
 
 #### Asset command usage
 ```
