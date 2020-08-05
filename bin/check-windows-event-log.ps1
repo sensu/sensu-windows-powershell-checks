@@ -49,13 +49,13 @@ $CountWarns=($ThisEvent | Where{$_.Level -le $WarningLevel}).count
 
 #Prints count of how many ciritials and warnings
 If($CountCrits -eq 0 -And $CountWarns -eq 0){
-  "CheckLog OK: $CountCrits criticals $CountWarns warnings"
+  "CheckLog OK:"
    EXIT 0
 }ElseIF ($CountCrits -gt 0) {
-    "CheckLog CRITICAL: $CountCrits criticals $CountWarns warnings"
+    "CheckLog CRITICAL: $CountCrits criticals"
     EXIT 2
 }
 Else {
-    "CheckLog WARNING: $CountCrits criticals $CountWarns warnings"
+    "CheckLog WARNING: $CountWarns warnings"
     EXIT 1
 }
