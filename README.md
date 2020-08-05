@@ -140,7 +140,7 @@ DESCRIPTION
 
 #### Asset command usage
 ```
-Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-disk-writeable.ps1 -DriveType "3,5" -Ignore "A,B" -TestFile '\test.txt'
+Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-disk-writeable.ps1 -DriveType '3,5' -Ignore 'A,B' -TestFile '\test.txt'
 ```
 
 ### check-windows-directory.ps1
