@@ -1,12 +1,12 @@
 <#
-.SYNOPSIS 
-    This plugin checks availability of url provided as param. Optionally checks if substring exists in url content 
+.SYNOPSIS
+    This plugin checks availability of url provided as param. Optionally checks if substring exists in url content
 .DESCRIPTION
-    This plugin checks availability of link provided as param. Optionally checks if substring exists in url content 
+    This plugin checks availability of link provided as param. Optionally checks if substring exists in url content
 .Notes
     FileName    : check-windows-http.ps1
     Author      : Patrice White - patrice.white@ge.com
-.PARAMETER CheckAddress 
+.PARAMETER CheckAddress
     Required. Url string to check.
     Example -CheckAddress https://sensu.io
 .PARAMETER ContentSubstring
@@ -20,7 +20,7 @@
 #
 # DESCRIPTION:
 #   This plugin checks availability of link provided as param
-#   Optionally checks if substring exists in url content 
+#   Optionally checks if substring exists in url content
 #
 # OUTPUT:
 #   plain text
@@ -45,10 +45,10 @@
 
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory=$True,Position=1)]
-   [string]$CheckAddress,
-  [Parameter(Mandatory=$False,Position=2)]
-   [string]$ContentSubstring
+  [Parameter(Mandatory = $True, Position = 1)]
+  [string]$CheckAddress,
+  [Parameter(Mandatory = $False, Position = 2)]
+  [string]$ContentSubstring
 )
 
 $global:ProgressPreference = "SilentlyContinue"
@@ -58,34 +58,37 @@ $ThisProcess.PriorityClass = "BelowNormal"
 try {
   $Available = Invoke-WebRequest -UseBasicParsing $CheckAddress -ErrorAction SilentlyContinue
 }
-
 catch {
-  $errorhandler = $_.Exception.request
+  Write-Host "UNKNOWN: $_"
+  exit 3
 }
 
 if (!$Available) {
-  Write-Host CRITICAL: Could not connect  $CheckAddress!
-  Exit 2 
+  Write-Host "CRITICAL: Could not connect $CheckAddress!"
+  exit 2
 }
 
 if ($Available) {
-   if ($Available.statuscode -eq 200) {
-      if ($ContentSubstring) {
-        $output=$Available.ToString()
-        $result = $output -match $ContentSubstring
-        if ($result) {
-          Write-Host OK: $CheckAddress is available and Content contains $ContentSubstring
-          Exit 0
-        } else {
-          Write-Host CRITICAL: $CheckAddress is available but Content does not contain $ContentSubstring
-          Exit 2
-        }
-      } else {
-        Write-Host OK: $CheckAddress is available!
-        Exit 0
+  if ($Available.statuscode -eq 200) {
+    if ($ContentSubstring) {
+      $output = $Available.ToString()
+      $result = $output -match $ContentSubstring
+      if ($result) {
+        Write-Host "OK: $CheckAddress is available and Content contains $ContentSubstring"
+        exit 0
       }
-   } else {
-      Write-Host CRITICAL: URL $CheckAddress is not accessible!
-      Exit 2
-   }
+      else {
+        Write-Host "CRITICAL: $CheckAddress is available but Content does not contain $ContentSubstring"
+        exit 2
+      }
+    }
+    else {
+      Write-Host "OK: $CheckAddress is available!"
+      exit 0
+    }
+  }
+  else {
+    Write-Host "CRITICAL: URL $CheckAddress is not accessible!"
+    exit 2
+  }
 }

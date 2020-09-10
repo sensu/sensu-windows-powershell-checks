@@ -43,8 +43,8 @@
 
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory=$True,Position=1)]
-   [string]$ProcessName
+  [Parameter(Mandatory = $True, Position = 1)]
+  [string]$ProcessName
 )
 
 $ThisProcess = Get-Process -Id $pid
@@ -52,10 +52,11 @@ $ThisProcess.PriorityClass = "BelowNormal"
 
 $Exists = Get-Process $ProcessName -ErrorAction SilentlyContinue
 
-If (!$Exists) {
-  Write-Host CRITICAL: $ProcessName not found!
-  Exit 2 }
-
-If ($Exists) {
-  Write-Host OK: $ProcessName running.
-  Exit 0 }
+if (!$Exists) {
+  Write-Host "CRITICAL: $ProcessName not found!"
+  exit 2
+}
+else {
+  Write-Host "OK: $ProcessName running."
+  exit 0
+}

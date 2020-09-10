@@ -42,11 +42,11 @@
 
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory=$True,Position=1)]
-   [int]$WARNING,
+  [Parameter(Mandatory = $True, Position = 1)]
+  [int]$WARNING = 80,
 
-   [Parameter(Mandatory=$True,Position=2)]
-   [int]$CRITICAL
+  [Parameter(Mandatory = $True, Position = 2)]
+  [int]$CRITICAL = 90
 )
 
 $ThisProcess = Get-Process -Id $pid
@@ -54,16 +54,17 @@ $ThisProcess.PriorityClass = "BelowNormal"
 
 $Memory = (Get-CimInstance -ClassName Win32_OperatingSystem)
 
-$Value = [System.Math]::Round(((($Memory.TotalVisibleMemorySize-$Memory.FreePhysicalMemory)/$Memory.TotalVisibleMemorySize)*100),2)
+$Value = [System.Math]::Round(((($Memory.TotalVisibleMemorySize - $Memory.FreePhysicalMemory) / $Memory.TotalVisibleMemorySize) * 100), 2)
 
-If ($Value -ge $CRITICAL) {
-  Write-Host CheckWindowsRAMLoad CRITICAL: RAM at $Value%.
-  Exit 2 }
-
-If ($Value -ge $WARNING) {
-  Write-Host CheckWindowsRAMLoad WARNING: RAM at $Value%.
-  Exit 1 }
-
-Else {
-  Write-Host CheckWindowsRAMLoad OK: RAM at $Value%.
-  Exit 0 }
+if ($Value -ge $CRITICAL) {
+  Write-Host "CheckWindowsRAMLoad CRITICAL: RAM at $Value%."
+  exit 2
+}
+elseif ($Value -ge $WARNING) {
+  Write-Host "CheckWindowsRAMLoad WARNING: RAM at $Value%."
+  exit 1
+}
+else {
+  Write-Host "CheckWindowsRAMLoad OK: RAM at $Value%."
+  exit 0
+}

@@ -24,31 +24,32 @@
 #
 
 param(
-    [switch]$UseFullyQualifiedHostname
-    )
+  [switch]$UseFullyQualifiedHostname,
+  [string]$Scheme = ($env:computername).ToLower()
+)
 
 $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
 . (Join-Path $PSScriptRoot perfhelper.ps1)
 
-if ($UseFullyQualifiedHostname -eq $false) {
-    $Path = ($env:computername).ToLower()
-}else {
-    $Path = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+if ($UseFullyQualifiedHostname) {
+  $Path = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+}
+else {
+  $Path = $Scheme
 }
 
-$AllDisks = Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType = 3" | Where-Object { $_.DeviceID -notmatch "[ab]:"}
+$AllDisks = Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType = 3" | Where-Object { $_.DeviceID -notmatch "[ab]:" }
 
-foreach ($ObjDisk in $AllDisks) 
-{
-  $DeviceId = $ObjDisk.DeviceID -replace ":",""
+ForEach ($ObjDisk in $AllDisks) {
+  $DeviceId = $ObjDisk.DeviceID -replace ":", ""
 
-  $UsedSpace = [System.Math]::Round((($ObjDisk.Size-$ObjDisk.Freespace)/1MB),2)
-  $AvailableSpace = [System.Math]::Round(($ObjDisk.Freespace/1MB),2)
-  $UsedPercentage = [System.Math]::Round(((($ObjDisk.Size-$ObjDisk.Freespace)/$ObjDisk.Size)*100),2)
+  $UsedSpace = [System.Math]::Round((($ObjDisk.Size - $ObjDisk.Freespace) / 1MB), 2)
+  $AvailableSpace = [System.Math]::Round(($ObjDisk.Freespace / 1MB), 2)
+  $UsedPercentage = [System.Math]::Round(((($ObjDisk.Size - $ObjDisk.Freespace) / $ObjDisk.Size) * 100), 2)
 
-  $Time = DateTimeToUnixTimestamp -DateTime (Get-Date)
+  $Time = ConvertTo-Unixtime -DateTime (Get-Date)
 
   Write-Host "$Path.disk.usage.$DeviceId.UsedMB $UsedSpace $Time"
   Write-Host "$Path.disk.usage.$DeviceId.FreeMB $AvailableSpace $Time"

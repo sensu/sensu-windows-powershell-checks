@@ -12,7 +12,7 @@
     Required.  Service name to check.
 
 .EXAMPLE
-    powershell.exe -file check-windows-service.ps1 sshd 
+    powershell.exe -file check-windows-service.ps1 sshd
 #>
 
 #
@@ -44,8 +44,8 @@
 
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory=$True,Position=1)]
-   [string]$ServiceName
+  [Parameter(Mandatory = $True, Position = 1)]
+  [string]$ServiceName
 )
 
 $ThisProcess = Get-Process -Id $pid
@@ -53,16 +53,18 @@ $ThisProcess.PriorityClass = "BelowNormal"
 
 $Exists = Get-Service $ServiceName -ErrorAction SilentlyContinue
 
-If ($Exists) {
-  If (($Exists).Status -eq "Running") {
-    Write-Host OK: $ServiceName Running.
-    Exit 0 }
+if ($Exists) {
+  if (($Exists).Status -eq "Running") {
+    Write-Host "OK: $ServiceName Running."
+    exit 0
+  }
 
-  If (($Exists).Status -eq "Stopped") {
-    Write-Host CRITICAL: $ServiceName Stopped.
-    Exit 2 }
+  if (($Exists).Status -eq "Stopped") {
+    Write-Host "CRITICAL: $ServiceName Stopped."
+    exit 2
+  }
 }
-
-If (!$Exists) {
-  Write-Host CRITICAL: $ServiceName not found!
-  Exit 2 }
+else {
+  Write-Host "CRITICAL: $ServiceName not found!"
+  exit 2
+}

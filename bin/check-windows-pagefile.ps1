@@ -42,11 +42,11 @@
 
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory=$True,Position=1)]
-   [int]$WARNING,
+  [Parameter(Mandatory = $True, Position = 1)]
+  [int]$WARNING = 70,
 
-   [Parameter(Mandatory=$True,Position=2)]
-   [int]$CRITICAL
+  [Parameter(Mandatory = $True, Position = 2)]
+  [int]$CRITICAL = 80
 )
 
 $ThisProcess = Get-Process -Id $pid
@@ -55,16 +55,19 @@ $ThisProcess.PriorityClass = "BelowNormal"
 [int]$pagefileAllocated = (Get-CimInstance -classname Win32_PageFileUsage).AllocatedBaseSize
 [int]$pagefileCurrentUsage = (Get-CimInstance -classname Win32_PageFileUsage).CurrentUsage
 
-[int]$Value = ($pagefileCurrentUsage/$pagefileAllocated) * 100
+[int]$Value = ($pagefileCurrentUsage / $pagefileAllocated) * 100
 
-If ($Value -gt $CRITICAL) {
-  Write-Host CheckWindowsPagefile CRITICAL: Pagefile usage at $Value%.
-  Exit 2 }
+if ($Value -gt $CRITICAL) {
+  Write-Host "CheckWindowsPagefile CRITICAL: Pagefile usage at $Value%."
+  exit 2
+}
 
-If ($Value -gt $WARNING) {
-  Write-Host CheckWindowsPagefile WARNING: Pagefile usage at $Value%.
-  Exit 1 }
+if ($Value -gt $WARNING) {
+  Write-Host "CheckWindowsPagefile WARNING: Pagefile usage at $Value%."
+  exit 1
+}
 
-Else {
-  Write-Host CheckWindowsPagefile OK: Pagefile usage at $Value%.
-  Exit 0 }
+else {
+  Write-Host "CheckWindowsPagefile OK: Pagefile usage at $Value%."
+  exit 0
+}

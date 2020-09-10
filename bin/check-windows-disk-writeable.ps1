@@ -6,7 +6,7 @@
 .Notes
     FileName    : check-windows-disk-writeable.ps1
 .PARAMETER DriveType
-    Optional. DriveType, 
+    Optional. DriveType,
     see available options at https://msdn.microsoft.com/en-us/library/windows/desktop/aa364939(v=vs.85).aspx
     Specify multiple values as a comma separated string, e.g. "3,5"
 .PARAMETER Ignore
@@ -53,16 +53,16 @@
 Param(
   # DriveType, see available options at https://msdn.microsoft.com/en-us/library/windows/desktop/aa364939(v=vs.85).aspx
   # Specify multiple values as a comma separated string, e.g. "3,5"
-  [Parameter(Mandatory=$False)]
+  [Parameter(Mandatory = $False)]
   [string]$DriveType = "3",
 
   # Disk letters to ignore
   # Specify multiple values as a comma separated string, e.g. "C,D"
-  [Parameter(Mandatory=$False)]
+  [Parameter(Mandatory = $False)]
   [string]$Ignore = "None",
 
   # Test file to create on each disk to test it is writeable
-  [Parameter(Mandatory=$False)]
+  [Parameter(Mandatory = $False)]
   [string]$TestFile = "\testfile.txt"
 )
 
@@ -73,8 +73,8 @@ $crit = 0
 $critDisks = ""
 
 $AllDisks = @()
-Foreach ($DT in $($DriveType -split(','))) {
-  Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType = ${DT}" | Where-Object { $_.DeviceID -notmatch "[$($Ignore.Replace(',',''))]:"} | %{ $AllDisks += $_ }
+ForEach ($DT in $($DriveType -split (','))) {
+  Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType = ${DT}" | Where-Object { $_.DeviceID -notmatch "[$($Ignore.Replace(',',''))]:" } | ForEach-Object { $AllDisks += $_ }
 }
 
 if ($AllDisks.count -eq 0) {
@@ -82,17 +82,17 @@ if ($AllDisks.count -eq 0) {
   exit 3
 }
 
-foreach ($ObjDisk in $AllDisks) {
+ForEach ($ObjDisk in $AllDisks) {
 
   $ID = $ObjDisk.DeviceID
   $TestPath = $ID + $TestFile
 
   $Writeable = $True
-  Try {
+  try {
     [io.file]::OpenWrite($TestPath).close()
     Remove-Item $TestPath
   }
-  Catch {
+  catch {
     Write-Verbose "Unable to write to output file $TestPath"
     $Writeable = $False
   }
@@ -109,4 +109,4 @@ if ($crit -ne 0) {
 }
 
 Write-Host "CheckDiskWriteable OK: All disks are writeable."
-Exit 0
+exit 0

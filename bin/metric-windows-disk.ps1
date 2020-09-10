@@ -24,21 +24,23 @@
 #
 
 param(
-    [switch]$UseFullyQualifiedHostname
-    )
+  [switch]$UseFullyQualifiedHostname,
+  [string]$Scheme = ($env:computername).ToLower()
+)
 
-$counters =  New-Object System.Collections.ArrayList
-$instances =  @{}
+$counters = New-Object System.Collections.ArrayList
+$instances = @{}
 
 $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
 . (Join-Path $PSScriptRoot perfhelper.ps1)
 
-if ($UseFullyQualifiedHostname -eq $false) {
-    $Path = ($env:computername).ToLower()
-}else {
-    $Path = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+if ($UseFullyQualifiedHostname) {
+  $Path = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+}
+else {
+  $Path = $Scheme
 }
 
 $perfCategoryID = Get-PerformanceCounterByID -Name 'PhysicalDisk'
@@ -50,40 +52,40 @@ $localizedCategoryName = Get-PerformanceCounterLocalName -ID $perfCategoryID
 [void]$counters.Add('Avg. Disk sec/Write')
 [void]$counters.Add('Current Disk Queue Length')
 
-foreach ($ObjDisk in (Get-Counter -Counter "\$localizedCategoryName(*)\*").CounterSamples) {
+ForEach ($ObjDisk in (Get-Counter -Counter "\$localizedCategoryName(*)\*").CounterSamples) {
 
-   if ($instances.ContainsKey($ObjDisk.InstanceName) -eq $false) {
+  if ($instances.ContainsKey($ObjDisk.InstanceName) -eq $false) {
 
-        if ($ObjDisk.InstanceName.ToLower() -ne '_total') {
-            $disk = $ObjDisk.InstanceName
-            $disk = $disk.Remove(0,1)
-            $disk = $disk.Replace(":","")
-            $disk = $disk.Trim()
-            $instances.Add($ObjDisk.InstanceName,$disk.toUpper())
-        }
+    if ($ObjDisk.InstanceName.ToLower() -ne '_total') {
+      $disk = $ObjDisk.InstanceName
+      $disk = $disk.Remove(0, 1)
+      $disk = $disk.Replace(":", "")
+      $disk = $disk.Trim()
+      $instances.Add($ObjDisk.InstanceName, $disk.toUpper())
+    }
 
-   }
+  }
 
 }
 
-foreach ($diskkey in $instances.Keys) {
+ForEach ($diskkey in $instances.Keys) {
 
-    $diskname = $instances.$diskkey
+  $diskname = $instances.$diskkey
 
-    foreach ($counter in $counters) {
+  ForEach ($counter in $counters) {
 
-        $perfCounterID = Get-PerformanceCounterByID -Name $counter
-        $localizedCounterName = Get-PerformanceCounterLocalName -ID $perfCounterID
-        $value = [System.Math]::Round((Get-Counter "\$localizedCategoryName($diskkey)\$localizedCounterName" -SampleInterval 1 -MaxSamples 1).CounterSamples.CookedValue)
+    $perfCounterID = Get-PerformanceCounterByID -Name $counter
+    $localizedCounterName = Get-PerformanceCounterLocalName -ID $perfCounterID
+    $value = [System.Math]::Round((Get-Counter "\$localizedCategoryName($diskkey)\$localizedCounterName" -SampleInterval 1 -MaxSamples 1).CounterSamples.CookedValue)
 
-        $Time = DateTimeToUnixTimestamp -DateTime (Get-Date)
+    $Time = ConvertTo-Unixtime -DateTime (Get-Date)
 
-        if ($counter -eq 'Avg. Disk Bytes/Read') { Write-Host "$Path.disk.iostat.$diskname.read_bytes $value $Time" }
-        if ($counter -eq 'Avg. Disk Bytes/Write') { Write-Host "$Path.disk.iostat.$diskname.write_bytes $value $Time" }
-        if ($counter -eq 'Avg. Disk sec/Read') { Write-Host "$Path.disk.iostat.$diskname.read_await $value $Time" }
-        if ($counter -eq 'Avg. Disk sec/Write') { Write-Host "$Path.disk.iostat.$diskname.write_await $value $Time" }
-        if ($counter -eq 'Current Disk Queue Length') { Write-Host "$Path.disk.iostat.$diskname.queue_length $value $Time" }
+    if ($counter -eq 'Avg. Disk Bytes/Read') { Write-Host "$Path.disk.iostat.$diskname.read_bytes $value $Time" }
+    if ($counter -eq 'Avg. Disk Bytes/Write') { Write-Host "$Path.disk.iostat.$diskname.write_bytes $value $Time" }
+    if ($counter -eq 'Avg. Disk sec/Read') { Write-Host "$Path.disk.iostat.$diskname.read_await $value $Time" }
+    if ($counter -eq 'Avg. Disk sec/Write') { Write-Host "$Path.disk.iostat.$diskname.write_await $value $Time" }
+    if ($counter -eq 'Current Disk Queue Length') { Write-Host "$Path.disk.iostat.$diskname.queue_length $value $Time" }
 
-    }
+  }
 
 }

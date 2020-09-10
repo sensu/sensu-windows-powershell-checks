@@ -42,11 +42,11 @@
 
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory=$True,Position=1)]
-   [int]$WARNING,
+  [Parameter(Mandatory = $True, Position = 1)]
+  [int]$WARNING = 5,
 
-   [Parameter(Mandatory=$True,Position=2)]
-   [int]$CRITICAL
+  [Parameter(Mandatory = $True, Position = 2)]
+  [int]$CRITICAL = 10
 )
 
 $ThisProcess = Get-Process -Id $pid
@@ -54,14 +54,17 @@ $ThisProcess.PriorityClass = "BelowNormal"
 
 $Value = (Get-CimInstance -className Win32_PerfFormattedData_PerfOS_System).ProcessorQueueLength
 
-If ($Value -gt $CRITICAL) {
-  Write-Host CheckWindowsProcessorQueueLength CRITICAL: Processor Queue at $Value.
-  Exit 2 }
+if ($Value -gt $CRITICAL) {
+  Write-Host "CheckWindowsProcessorQueueLength CRITICAL: Processor Queue at $Value."
+  exit 2
+}
 
-If ($Value -gt $WARNING) {
-  Write-Host CheckWindowsProcessorQueueLength WARNING: Processor Queue at $Value.
-  Exit 1 }
+if ($Value -gt $WARNING) {
+  Write-Host "CheckWindowsProcessorQueueLength WARNING: Processor Queue at $Value."
+  exit 1
+}
 
-Else {
-  Write-Host CheckWindowsProcessorQueueLength OK: Processor Queue at $Value.
-  Exit 0 }
+else {
+  Write-Host "CheckWindowsProcessorQueueLength OK: Processor Queue at $Value."
+  exit 0
+}

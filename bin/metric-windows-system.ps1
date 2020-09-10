@@ -24,18 +24,20 @@
 #
 
 param(
-    [switch]$UseFullyQualifiedHostname
-    )
+  [switch]$UseFullyQualifiedHostname,
+  [string]$Scheme = ($env:computername).ToLower()
+)
 
 $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
 . (Join-Path $PSScriptRoot perfhelper.ps1)
 
-if ($UseFullyQualifiedHostname -eq $false) {
-    $Path = ($env:computername).ToLower()
-}else {
-    $Path = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+if ($UseFullyQualifiedHostname) {
+  $Path = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+}
+else {
+  $Path = $Scheme
 }
 
 $perfCategoryID = Get-PerformanceCounterByID -Name 'Processor Information'
@@ -50,7 +52,7 @@ $perfCounterID = Get-PerformanceCounterByID -Name 'Context Switches/sec'
 $localizedCounterName = Get-PerformanceCounterLocalName -ID $perfCounterID
 $count_context = [System.Math]::Round((Get-Counter "\$localizedCategoryName\$localizedCounterName" -SampleInterval 1 -MaxSamples 1).CounterSamples.CookedValue)
 
-$Time = DateTimeToUnixTimestamp -DateTime (Get-Date)
+$Time = ConvertTo-Unixtime -DateTime (Get-Date)
 
 Write-Host "$Path.system.irq_per_second $count_interrupt $Time"
 Write-Host "$Path.system.context_switches_per_second $count_context $Time"

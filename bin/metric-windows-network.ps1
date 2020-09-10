@@ -24,32 +24,34 @@
 #
 
 param(
-    [string[]]$Interfaces,
-    [switch]$UseFullyQualifiedHostname,
-    [switch]$ListInterfaces
-    )
+  [string[]]$Interfaces,
+  [switch]$ListInterfaces,
+  [switch]$UseFullyQualifiedHostname,
+  [string]$Scheme = ($env:computername).ToLower()
+)
 
 $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
 . (Join-Path $PSScriptRoot perfhelper.ps1)
 
-if ($UseFullyQualifiedHostname -eq $false) {
-    $Hostname = ($env:computername).ToLower()
-}else {
-    $Hostname = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+if ($UseFullyQualifiedHostname) {
+  $Path = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+}
+else {
+  $Path = $Scheme
 }
 
 $perfCategoryID = Get-PerformanceCounterByID -Name 'Network Interface'
-if ($perfCategoryID.Length -eq 0 ) {
+if ($perfCategoryID.Length -eq 0) {
   Write-Host "perfCategoryID: is Null"
-  Exit 2
+  exit 2
 }
 $localizedCategoryName = Get-PerformanceCounterLocalName -ID $perfCategoryID
 
-for($i = 0; $i -lt $Interfaces.Count; $i+=1) {
-    $tmp = $Interfaces[$i]
-    $Interfaces[$i] = $tmp.Replace(" ","_")
+for ($i = 0; $i -lt $Interfaces.Count; $i += 1) {
+  $tmp = $Interfaces[$i]
+  $Interfaces[$i] = $tmp.Replace(" ", "_")
 }
 
 if ($ListInterfaces -eq $true) {
@@ -57,9 +59,8 @@ if ($ListInterfaces -eq $true) {
   Write-Host "Full Name :: Underscore Modified Name"
   Write-Host "-------------------------------------"
 }
-foreach ($ObjNet in (Get-Counter -Counter "\$localizedCategoryName(*)\*").CounterSamples) 
-{ 
-  $instanceName=$ObjNet.InstanceName.ToString().Replace(" ","_")
+ForEach ($ObjNet in (Get-Counter -Counter "\$localizedCategoryName(*)\*").CounterSamples) {
+  $instanceName = $ObjNet.InstanceName.ToString().Replace(" ", "_")
   if ($ListInterfaces -eq $true) {
     $str = $ObjNet.InstanceName.ToString()
     Write-Host "$str :: $instanceName"
@@ -69,32 +70,30 @@ foreach ($ObjNet in (Get-Counter -Counter "\$localizedCategoryName(*)\*").Counte
   $include = $false
   if ($Interfaces.Count -eq 0) {
     $include = $true
-  } else {
+  }
+  else {
     if ($Interfaces.Contains($instanceName)) {
       $include = $true
     }
- }
+  }
 
- if ( $include -eq $true ) {
-     $Measurement = ($ObjNet.Path).Trim("\\") -replace "\\","." -replace " ","_" -replace "[(]","." -replace "[)]","" -replace "[\{\}]","" -replace "[\[\]]",""
+  if ($include -eq $true) {
+    $Measurement = ($ObjNet.Path).Trim("\\") -replace "\\", "." -replace " ", "_" -replace "[(]", "." -replace "[)]", "" -replace "[\{\}]", "" -replace "[\[\]]", ""
 
-	 $Measurement = $Measurement.Remove(0,$Measurement.IndexOf("."))   
-	 $Path = $Hostname+$Measurement
+    $Measurement = $Measurement.Remove(0, $Measurement.IndexOf(".") + 1)
+    $Measurement = $Measurement.Replace("/sec", "_per_second")
+    $Measurement = $Measurement.Replace("/s", "_per_second")
+    $Measurement = $Measurement.Replace(":", "")
+    $Measurement = $Measurement.Replace(",", "")
+    $Measurement = $Measurement.Replace("ï¿½", "ae")
+    $Measurement = $Measurement.Replace("ï¿½", "oe")
+    $Measurement = $Measurement.Replace("ï¿½", "ue")
+    $Measurement = $Measurement.Replace("ï¿½", "ss")
 
-     $Path = $Path.Replace("/s","_per_second")
-     $Path = $Path.Replace(":","")
-     $Path = $Path.Replace(",","")
-     $Path = $Path.Replace("ä","ae")
-     $Path = $Path.Replace("ö","oe")
-     $Path = $Path.Replace("ü","ue")
-	 $Path = $Path.Replace("ß","ss")
+    $Value = [System.Math]::Round(($ObjNet.CookedValue), 0)
+    $Time = ConvertTo-Unixtime -DateTime (Get-Date)
 
-     $Value = [System.Math]::Round(($ObjNet.CookedValue),0)
-     $Time = DateTimeToUnixTimestamp -DateTime (Get-Date)
+    Write-Host "$Path.$Measurement $Value $Time"
 
-     Write-Host "$Path $Value $Time"
-
-   }
-
+  }
 }
-

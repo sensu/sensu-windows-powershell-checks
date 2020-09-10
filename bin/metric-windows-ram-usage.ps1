@@ -23,27 +23,29 @@
 #   Released under the same terms as Sensu (the MIT license); see LICENSE for details.
 #
 param(
-    [switch]$UseFullyQualifiedHostname
-    )
+  [switch]$UseFullyQualifiedHostname,
+  [string]$Scheme = ($env:computername).ToLower()
+)
 
 $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
 . (Join-Path $PSScriptRoot perfhelper.ps1)
 
-if ($UseFullyQualifiedHostname -eq $false) {
-    $Path = ($env:computername).ToLower()
-}else {
-    $Path = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+if ($UseFullyQualifiedHostname) {
+  $Path = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+}
+else {
+  $Path = $Scheme
 }
 
 $Memory = (Get-CimInstance -ClassName Win32_OperatingSystem)
 $FreeMemory = $Memory.FreePhysicalMemory
 $TotalMemory = $Memory.TotalVisibleMemorySize
-$UsedMemory = $TotalMemory-$FreeMemory
+$UsedMemory = $TotalMemory - $FreeMemory
 
-$Value = [System.Math]::Round(((($TotalMemory-$FreeMemory)/$TotalMemory)*100),2)
-$Time = DateTimeToUnixTimestamp -DateTime (Get-Date)
+$Value = [System.Math]::Round(((($TotalMemory - $FreeMemory) / $TotalMemory) * 100), 2)
+$Time = ConvertTo-Unixtime -DateTime (Get-Date)
 
 Write-host "$Path.memory.free $FreeMemory $Time"
 Write-host "$Path.memory.total $TotalMemory $Time"
