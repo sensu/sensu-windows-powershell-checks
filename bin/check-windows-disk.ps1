@@ -46,10 +46,10 @@
 
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory = $True, Position = 1)]
+  [Parameter(Position = 1)]
   [int]$WARNING = 85,
 
-  [Parameter(Mandatory = $True, Position = 2)]
+  [Parameter(Position = 2)]
   [int]$CRITICAL = 95,
 
   # Example "abz"

@@ -8,10 +8,10 @@ Collection of Windows Powershell checks for Sensu
 > check-windows-http.ps1 -?
 NAME
     check-windows-http.ps1
-    
+
 SYNOPSIS
     This plugin checks availability of url provided as param. Optionally checks if substring exists in url content
-    
+
 SYNTAX
     check-windows-http.ps1 [-CheckAddress] <String> [[-ContentSubstring] <String>] [<CommonParameters>]
 ```
@@ -34,26 +34,26 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 > check-windows-disk.ps1 -?
 NAME
     check-windows-disk.ps1
-    
+
 SYNOPSIS
     This plugin collects the Disk Usage and and compares against the WARNING and CRITICAL thresholds.
-    
-    
+
+
 SYNTAX
     check-windows-disk.ps1 [-WARNING] <Int32> [-CRITICAL] <Int32> [[-IGNORE] <String>] [<CommonParameters>]
-    
-    
+
+
 DESCRIPTION
     This plugin collects the Disk Usage and and compares against the WARNING and CRITICAL thresholds.
 
 ```
 
 #### Param 1: Warning
-    Required. Warning disk usage percentage threshold.
+    Optional. Warning disk usage percentage threshold.
     Example -Warning 90
 
 #### Param 2: Critical
-    Required. Critical disk usage percentage threshold.
+    Optional. Critical disk usage percentage threshold.
     Example -Critical 95
 
 #### Param 3: Ignore
@@ -72,15 +72,15 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 
 NAME
     check-windows-event-log.ps1
-    
+
 SYNOPSIS
     Returns all occurances of pattern in log file
-    
-    
+
+
 SYNTAX
-    check-windows-event-log.ps1 [-LogName] <String> [-Pattern] <String> 
+    check-windows-event-log.ps1 [-LogName] <String> [-Pattern] <String>
     [[-CriticalLevel] <Int32>] [[-WarningLevel] <Int32>] [<CommonParameters>]
-    
+
 DESCRIPTION
     Checks Event log for pattern and returns the number criticals and warnings that match that pattern.
 ```
@@ -113,16 +113,16 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 > check-windows-disk-writeable.ps1 -?
 NAME
     check-windows-disk-writeable.ps1
-    
+
 SYNOPSIS
     This plugin collects the mounted logical disks and tests they are writeable.
-    
-    
+
+
 SYNTAX
-    check-windows-disk-writeable.ps1 [[-DriveType] <String>] [[-Ignore] <String>] 
+    check-windows-disk-writeable.ps1 [[-DriveType] <String>] [[-Ignore] <String>]
       [[-TestFile] <String>] [<CommonParameters>]
-    
-    
+
+
 DESCRIPTION
     This plugin collects the mounted logical disks and tests they are writeable.
 
@@ -150,16 +150,16 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 > check-windows-disk-directory.ps1 -?
 NAME
     check-windows-directory.ps1
-    
+
 SYNOPSIS
     Checks if  directory exist
-    
-    
+
+
 SYNTAX
-    check-windows-directory.ps1 [-Dir] 
+    check-windows-directory.ps1 [-Dir]
     <String> [<CommonParameters>]
-    
-    
+
+
 DESCRIPTION
     Checks if directory exist
 
@@ -185,18 +185,18 @@ NAME
 
 SYNOPSIS
     This plugin collects the RAM Usage and compares against the WARNING and CRITICAL thresholds.
-    
+
 SYNTAX
-    check-windows-ram.ps1 [-WARNING] 
+    check-windows-ram.ps1 [-WARNING]
     <Int32> [-CRITICAL] <Int32> [<CommonParameters>]
 
 ```
 
 #### Param 1: Warning
-    Required. Warning ram usage percentage threshold
+    Optional. Warning ram usage percentage threshold
 
 #### Param 1: Critical
-    Required. Critical rame usage percentage threshold
+    Optional. Critical rame usage percentage threshold
 
 
 #### Asset command usage
@@ -211,11 +211,11 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 > check-windows-process.ps1 -?
 NAME
     check-windows-process.ps1
-    
+
 SYNOPSIS
     This plugin checks whether a User-inputted process is running or not.
-    
-    
+
+
 SYNTAX
     check-windows-process.ps1 [-ProcessName] <String> [<CommonParameters>]
 
@@ -236,22 +236,22 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 > check-windows-cpu-load.ps1 -?
 NAME
     check-windows-cpu-load.ps1
-    
+
 SYNOPSIS
     This plugin collects the CPU Usage and compares against the WARNING and CRITICAL thresholds.
-    
-    
+
+
 SYNTAX
-    check-windows-cpu-load.ps1 [-WARNING] 
+    check-windows-cpu-load.ps1 [-WARNING]
     <Int32> [-CRITICAL] <Int32> [<CommonParameters>]
 
 ```
 
 #### Param 1: Warning
-    Required. Warning cpu load percentage threshold
+    Optional. Warning cpu load percentage threshold
 
 #### Param 1: Critical
-    Required. Critical cpu load percentage threshold
+    Optional. Critical cpu load percentage threshold
 
 
 #### Asset command usage
@@ -267,22 +267,22 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 > check-windows-processor-queue-length.ps1 -?
 NAME
     check-windows-processor-queue-length.ps1
-    
+
 SYNOPSIS
     This plugin collects the Processor Queue Length and compares against the WARNING and CRITICAL thresholds.
-    
-    
+
+
 SYNTAX
-    check-windows-processor-queue-length.ps1 [-WARNING] 
+    check-windows-processor-queue-length.ps1 [-WARNING]
     <Int32> [-CRITICAL] <Int32> [<CommonParameters>]
 
 ```
 
 #### Param 1: Warning
-    Required. Warning processor queue length threshold
+    Optional. Warning processor queue length threshold
 
 #### Param 1: Critical
-    Required. Critical processor queue length threshold
+    Optional. Critical processor queue length threshold
 
 
 #### Asset command usage
@@ -297,21 +297,21 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 > check-windows-pagefile.ps1 -?
 NAME
     check-windows-pagefile.ps1
-    
+
 SYNOPSIS
     This plugin collects the Pagefile Usage and compares against the WARNING and CRITICAL thresholds.
-    
+
 SYNTAX
-    check-windows-pagefile.ps1 [-WARNING] 
+    check-windows-pagefile.ps1 [-WARNING]
     <Int32> [-CRITICAL] <Int32> [<CommonParameters>]
 
 ```
 
 #### Param 1: Warning
-    Required. Warning pagefile usage percentage threshold
+    Optional. Warning pagefile usage percentage threshold
 
 #### Param 1: Critical
-    Required. Critical pagefile usage percentage threshold
+    Optional. Critical pagefile usage percentage threshold
 
 
 #### Asset command usage
@@ -327,13 +327,13 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 
 NAME
     check-windows-log.ps1
-    
+
 SYNOPSIS
     Returns all occurances of pattern in log file
-    
+
 SYNTAX
     check-windows-log.ps1 [-LogPath] <String> [-Pattern] <String> [<CommonParameters>]
-    
+
 DESCRIPTION
     Checks log file for pattern and returns line(s) containing pattern
 
@@ -352,6 +352,56 @@ DESCRIPTION
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-log.ps1 -LogPath example.log -Pattern error
 ```
 
+### check-windows-logstream.ps1
+
+#### Help
+```
+> check-windows-log.ps1 -?
+
+NAME
+    check-windows-log.ps1
+
+SYNOPSIS
+    Returns all occurrences of pattern in log file, using a StreamReader
+
+    This check only loads a single line of text at a time into the memory.
+    This makes the script way less memory intense, and faster on large logs.
+    It also keeps track of where the log was last read, to not re-read logs.
+
+SYNTAX
+    check-windows-log.ps1 [-LogPath] <String> [-Pattern] <String> [[-MetadataFile] <string>] [-Regex] [-CaseSensitive] [<CommonParameters>]
+
+DESCRIPTION
+    Checks log file for pattern and returns the number of times the pattern was found.
+
+```
+
+#### Param 1: LogPath
+    Required. The path of the log file.
+    Example -LogPath example.log
+
+#### Param 2: Pattern
+    Required. The pattern you want to search for.
+    Example -LogPath example.log -Pattern error
+
+#### Param 3: MetadataFile
+    Optional. The metadata file where to store read bytes. Must be unique per check
+    Example -MetadataFile C:\Program Data\sensu\cache\my_file.txt"
+
+#### Param 4: Regex
+    Optional. Indicates that the pattern (-Pattern) is a regex pattern
+    Example -Regex
+
+#### Param 4: CaseSenstive
+    Optional. Indicates that the pattern (-Pattern) is a case sensitive
+    Example -CaseSenstive
+
+#### Asset command usage
+```
+powershell.exe -file check-windows-logstream.ps1 -LogPath C:\ProgramData\Logs\example2.log -Pattern "Exception\[\w*\]$" -Regex
+```
+
+
 ### check-windows-service.ps1
 
 #### Help
@@ -359,11 +409,11 @@ Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Comma
 > check-windows-service.ps1 -?
 NAME
     check-windows-service.ps1
-    
+
 SYNOPSIS
     This plugin checks whether a User-inputted Windows service is running or not.
-    
-    
+
+
 SYNTAX
     check-windows-service.ps1 [-ServiceName] <String> [<CommonParameters>]
 
@@ -376,4 +426,3 @@ SYNTAX
 ```
 Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-service.ps1 sshd
 ```
-
