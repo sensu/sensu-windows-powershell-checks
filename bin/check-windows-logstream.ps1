@@ -71,7 +71,7 @@ catch {
 while ($null -ne ($Line = $StreamReader.ReadLine())) {
   $CurrentReadBytes += [System.Text.Encoding]::UTF8.GetByteCount($Line)
 
-  if ($Line | Select-String -Quiet -SimpleMatch:$(!$Regex) -CaseSensitive:$(!$CaseSensitive) -Pattern $Pattern) {
+  if ($Line | Select-String -Quiet -SimpleMatch:$(!$Regex) -CaseSensitive:$CaseSensitive -Pattern $Pattern) {
     $NumMatches++
   }
 }
