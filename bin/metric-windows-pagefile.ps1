@@ -42,10 +42,15 @@ else {
   $Path = $Scheme
 }
 
-[int]$pagefileAllocated = (Get-CimInstance -classname Win32_PageFileUsage).AllocatedBaseSize
-[int]$pagefileCurrentUsage = (Get-CimInstance -classname Win32_PageFileUsage).CurrentUsage
+$PageFiles = Get-CimInstance -classname Win32_PageFileUsage
 
-[int]$Value = ($pagefileCurrentUsage / $pagefileAllocated) * 100
-$Time = ConvertTo-Unixtime -DateTime (Get-Date)
+ForEach ($PageFile in $PageFiles) {
+  $Name = $PageFile.Name -replace '\\', '' -replace ':', '_' -replace '\.', '_'
+  [int]$pagefileAllocated = $PageFile.AllocatedBaseSize
+  [int]$pagefileCurrentUsage = $PageFile.CurrentUsage
 
-Write-Host "$Path.system.pagefile_used_percent $Value $Time"
+  [int]$Value = ($pagefileCurrentUsage / $pagefileAllocated) * 100
+  $Time = ConvertTo-Unixtime -DateTime (Get-Date)
+
+  Write-Host "$Path.system.pagefile.$($Name).used_percent $Value $Time"
+}
