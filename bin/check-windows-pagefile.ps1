@@ -65,8 +65,7 @@ ForEach ($PageFile in $PageFiles) {
   if ($Value -gt $CRITICAL) {
     $CriticalPages.Add("Pagefile '$($PageFile.Name)' is above critical threshold: $($Value)%") | Out-Null
   }
-
-  if ($Value -gt $WARNING) {
+  elseif ($Value -gt $WARNING) {
     $WarningPages.Add("Pagefile '$($PageFile.Name)' is above warning threshold: $($Value)%") | Out-Null
   }
 }
