@@ -213,16 +213,28 @@ NAME
     check-windows-process.ps1
 
 SYNOPSIS
-    This plugin checks whether a User-inputted process is running or not.
+    This plugin checks whether a User-inputted process is running with too many or too few instances.
 
 
 SYNTAX
-    check-windows-process.ps1 [-ProcessName] <String> [<CommonParameters>]
+    check-windows-process.ps1 [-ProcessName] <String> [-WarnUnder <Int>] [-CritUnder <Int>] [-WarnOver <Int>] [-CritOver <Int>] [<CommonParameters>]
 
 ```
 
 #### Param 1: ProcessName
     Required. Name of user process to check
+
+#### Param 2:
+    Optional.  Warn if matching process count is over specified amount. Set to 0 to disable
+
+#### Param 3: CritOver
+    Optional.  Crit if matching process count is over specified amount. Set to 0 to disable
+
+#### Param 4: WarnUnder
+    Optional.  Warn if matching process count is under specified amount. Set to 0 to disable
+
+#### Param 5: CritUnder
+    Optional.  Crit if matching process count is under specified amount. Set to 0 to disable
 
 #### Asset command usage
 ```
