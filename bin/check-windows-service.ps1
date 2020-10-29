@@ -46,13 +46,22 @@
 Param(
   [Parameter(Mandatory = $True, Position = 1)]
   [string[]]
-  $ServiceName
+  $ServiceName,
+
+  # Whether to keep disabled services or not
+  [Parameter()]
+  [switch]
+  $KeepDisabledServices
 )
 
 $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
 $Services = Get-Service $ServiceName -ErrorAction SilentlyContinue
+
+if (!$KeepDisabledServices) {
+  $Services = $Services | Where-Object { $_.StartType -ne 'Disabled' }
+}
 
 if ($Services.Count -eq 0) {
   Write-Host "UNKNOWN: Found 0 matching services"
