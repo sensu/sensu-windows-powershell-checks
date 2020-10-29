@@ -45,26 +45,26 @@
 [CmdletBinding()]
 Param(
   [Parameter(Mandatory = $True, Position = 1)]
-  [string]$ServiceName
+  [string[]]
+  $ServiceName
 )
 
 $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
-$Exists = Get-Service $ServiceName -ErrorAction SilentlyContinue
+$Services = Get-Service $ServiceName -ErrorAction SilentlyContinue
 
-if ($Exists) {
-  if (($Exists).Status -eq "Running") {
-    Write-Host "OK: $ServiceName Running."
-    exit 0
-  }
-
-  if (($Exists).Status -eq "Stopped") {
-    Write-Host "CRITICAL: $ServiceName Stopped."
-    exit 2
-  }
+if ($Services.Count -eq 0) {
+  Write-Host "UNKNOWN: Found 0 matching services"
+  exit 3
+}
+elseif ($Services.Count -eq ($Services.Status -eq 'Running').Count) {
+  Write-Host "OK: All $($Services.Count) matching service(s) are running"
+  exit 0
 }
 else {
-  Write-Host "CRITICAL: $ServiceName not found!"
+  $StoppedServices = $Services | Where-Object { $_.Status -ne 'Running' }
+
+  Write-Host "CRITICAL: Found $($StoppedServices.Count) matching non-running service(s): $($StoppedServices.Name -join ', ')"
   exit 2
 }

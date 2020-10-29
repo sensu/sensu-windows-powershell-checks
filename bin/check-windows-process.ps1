@@ -59,7 +59,7 @@
 [CmdletBinding()]
 Param(
   [Parameter(Mandatory = $True, Position = 1)]
-  [string]
+  [string[]]
   $ProcessName,
 
   # Trigger a warning of over a number
