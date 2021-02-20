@@ -26,7 +26,8 @@ jobs:
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
 
     # Test
-    - name: Execute Performance Tests
+    - name: Execute check-windows-http.ps1
       run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command ./bin/check-windows-http.ps1  https://sensu.io monitoring
+      shell: cmd  
  
 
