@@ -31,6 +31,6 @@ jobs:
       shell: cmd  
 
     - name: Execute check-windows-disk.ps1
-      run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command check-windows-disk.ps1 90 95  
+      run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command ./bin/check-windows-disk.ps1 90 95  
       shell: cmd  
 
