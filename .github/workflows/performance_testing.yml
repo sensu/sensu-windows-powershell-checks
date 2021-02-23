@@ -26,6 +26,14 @@ jobs:
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
 
     # Test
+    - name: PSVersionTable.PSVersion
+      run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command '$PSVersionTable'
+      shell: cmd  
+
+    - name: Get-PSReadlineOption
+      run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command Get-PSReadlineOption
+      shell: cmd  
+
     - name: Execute check-windows-http.ps1
       run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command ./bin/check-windows-http.ps1  https://sensu.io monitoring
       shell: cmd  
@@ -39,6 +47,6 @@ jobs:
       shell: cmd  
 
     - name: Execute check-windows-cpu-load.ps1
-      run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command ./bin/check-windows-cpu-load.ps1 90 95  
+      run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command "Start-Sleep -Seconds 5; ./bin/check-windows-cpu-load.ps1 90 95"  
       shell: cmd  
 
