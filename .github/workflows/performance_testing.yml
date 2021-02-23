@@ -26,8 +26,12 @@ jobs:
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
 
     # Test
+    - name: Get-Host
+      run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command Get-Host
+      shell: cmd  
+
     - name: PSVersionTable.PSVersion
-      run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command '$PSVersionTable'
+      run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command $PSVersionTable
       shell: cmd  
 
     - name: Get-PSReadlineOption
