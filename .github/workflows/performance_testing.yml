@@ -34,3 +34,11 @@ jobs:
       run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command ./bin/check-windows-disk.ps1 90 95  
       shell: cmd  
 
+    - name: Execute check-windows-ram.ps1
+      run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command ./bin/check-windows-ram.ps1 90 95  
+      shell: cmd  
+
+    - name: Execute check-windows-cpu-load.ps1
+      run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command ./bin/check-windows-cpu-load.ps1 90 95  
+      shell: cmd  
+
