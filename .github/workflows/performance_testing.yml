@@ -37,7 +37,11 @@ jobs:
     - name: Get-PSReadlineOption
       run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command Get-PSReadlineOption
       shell: cmd  
-    
+
+    - name: Create PSReadLine Dir
+      shell: pwsh
+      run: New-Item -Path C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ -ItemType Directory -ErrorAction SilentlyContinue  
+
     - name: Create History File
       run: echo "This is just a sample line appended to create a big file.. " > C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
 
