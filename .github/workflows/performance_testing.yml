@@ -37,6 +37,15 @@ jobs:
     - name: Get-PSReadlineOption
       run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command Get-PSReadlineOption
       shell: cmd  
+    
+    - name: Create History File
+      run: echo "This is just a sample line appended to create a big file.. " > C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+
+    - name: Enbiggen History File
+      run: for /L %i in (1,1,20) do type C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt >> C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+
+    - name: History Filesize
+      run: dir C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
 
     - name: Execute check-windows-http.ps1
       run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command ./bin/check-windows-http.ps1  https://sensu.io monitoring
