@@ -46,7 +46,8 @@ jobs:
         #run: echo "This is just a sample line appended to create a big file.. " > C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
 
     - name: Enbiggen History File
-      run: fsutil file createnew C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt 104857600
+      run: For ($i=0; $i -le 30000; $i++)  { Add-Content -Path C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt  -Value "this is a test" }
+      shell: pwsh  
 
     - name: History Filesize
       run: dir C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
@@ -67,3 +68,5 @@ jobs:
       run: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command "Start-Sleep -Seconds 5; ./bin/check-windows-cpu-load.ps1 90 95"  
       shell: cmd  
 
+    - name: Tail History
+      run: tail C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
