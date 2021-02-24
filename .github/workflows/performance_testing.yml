@@ -42,11 +42,11 @@ jobs:
       shell: pwsh
       run: New-Item -Path C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ -ItemType Directory -ErrorAction SilentlyContinue  
 
-    - name: Create History File
-      run: echo "This is just a sample line appended to create a big file.. " > C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+        #- name: Create History File
+        #run: echo "This is just a sample line appended to create a big file.. " > C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
 
     - name: Enbiggen History File
-      run: for /L %i in (1,1,20) do type C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt >> C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+      run: fsutil file createnew C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt 104857600
 
     - name: History Filesize
       run: dir C:\Users\runneradmin\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
