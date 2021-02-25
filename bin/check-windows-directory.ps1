@@ -1,14 +1,14 @@
 <#
-.SYNOPSIS 
+.SYNOPSIS
     Checks if  directory exist
 .DESCRIPTION
     Checks if directory exist
 .Notes
     FileName    : check-windows-directory.ps1
     Author      : Patrice White - patrice.white@ge.com
-.LINK 
+.LINK
     https://github.com/sensu-plugins/sensu-plugins-windows
-.PARAMETER LogName 
+.PARAMETER LogName
     Required. The name of the directory.
     Example -Dir C:\Users\dir
 .EXAMPLE
@@ -17,7 +17,7 @@
 
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory=$True)]
+  [Parameter(Mandatory = $True)]
   [string]$Dir
 )
 
@@ -25,9 +25,10 @@ $ThisDir = Test-Path -Path $Dir
 
 #Shows diretory if it exist
 if ($ThisDir) {
-    "CheckDirectory OK: Directory exist"
-    EXIT 0
-}else {
-    "CheckDirectory CRITICAL: Directory doesn't exist"
-    EXIT 2
+  Write-Host "CheckDirectory OK: Directory exist"
+  exit 0
+}
+else {
+  Write-Host "CheckDirectory CRITICAL: Directory doesn't exist"
+  exit 2
 }

@@ -1,14 +1,14 @@
 <#
-.SYNOPSIS 
-    Returns all occurances of pattern in log file 
+.SYNOPSIS
+    Returns all occurances of pattern in log file
 .DESCRIPTION
     Checks log file for pattern and returns line(s) containing pattern
 .Notes
     FileName    : check-windows-log.ps1
     Author      : Patrice White - patrice.white@ge.com
-.LINK 
+.LINK
     https://github.com/sensu-plugins/sensu-plugins-windows
-.PARAMETER LogName 
+.PARAMETER LogName
     Required. The name of the log file.
     Example -LogName example.log
 .PARAMETER Pattern
@@ -20,9 +20,9 @@
 
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory=$True)]
+  [Parameter(Mandatory = $True)]
   [string]$LogPath,
-  [Parameter(Mandatory=$True)]
+  [Parameter(Mandatory = $True)]
   [string]$Pattern
 )
 
@@ -30,11 +30,12 @@ Param(
 $ThisLog = Select-String -Path $LogPath -Pattern $Pattern -AllMatch
 
 #Show matched lines if they exist
-If($ThisLog -eq $null ){
-  "CheckLog OK: The pattern doesn't exist in log"
-  EXIT 0
-}else{
+if ($null -eq $ThisLog) {
+  Write-Host "CheckLog OK: The pattern doesn't exist in log"
+  exit 0
+}
+else {
   $ThisLog
-  "CheckLog CRITICAL"
-  EXIT 2
+  Write-Host "CheckLog CRITICAL"
+  exit 2
 }

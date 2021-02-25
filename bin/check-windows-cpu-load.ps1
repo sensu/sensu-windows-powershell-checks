@@ -42,11 +42,11 @@
 
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory=$True,Position=1)]
-   [int]$WARNING,
+  [Parameter(Position = 1)]
+  [int]$WARNING = 80,
 
-   [Parameter(Mandatory=$True,Position=2)]
-   [int]$CRITICAL
+  [Parameter(Position = 2)]
+  [int]$CRITICAL = 100
 )
 
 . (Join-Path $PSScriptRoot perfhelper.ps1)
@@ -62,16 +62,17 @@ $localizedCounterName = Get-PerformanceCounterLocalName -ID $perfCounterID
 
 $Value = [System.Math]::Round((Get-Counter "\$localizedCategoryName(_total)\$localizedCounterName" -SampleInterval 1 -MaxSamples 1).CounterSamples.CookedValue)
 
-If ($Value -ge $CRITICAL) {
-  Write-Host CheckWindowsCpuLoad CRITICAL: CPU at $Value%.
-  Exit 2 }
-
-If ($Value -ge $WARNING) {
-  Write-Host CheckWindowsCpuLoad WARNING: CPU at $Value%.
-  Exit 1
+if ($Value -ge $CRITICAL) {
+  Write-Host "CheckWindowsCpuLoad CRITICAL: CPU at $Value%."
+  exit 2
 }
 
-Else {
-  Write-Host CheckWindowsCpuLoad OK: CPU at $Value%.
-  Exit 0 
+if ($Value -ge $WARNING) {
+  Write-Host "CheckWindowsCpuLoad WARNING: CPU at $Value%."
+  exit 1
+}
+
+else {
+  Write-Host "CheckWindowsCpuLoad OK: CPU at $Value%."
+  exit 0
 }

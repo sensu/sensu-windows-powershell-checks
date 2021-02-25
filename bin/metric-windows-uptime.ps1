@@ -22,10 +22,22 @@
 #   Copyright 2016 sensu-plugins
 #   Released under the same terms as Sensu (the MIT license); see LICENSE for details.
 #
+param(
+  [switch]$UseFullyQualifiedHostname,
+  [string]$Scheme = ($env:computername).ToLower()
+)
+
 $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
 . (Join-Path $PSScriptRoot perfhelper.ps1)
+
+if ($UseFullyQualifiedHostname) {
+  $Path = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+}
+else {
+  $Path = $Scheme
+}
 
 $perfCategoryID = Get-PerformanceCounterByID -Name 'System'
 $localizedCategoryName = Get-PerformanceCounterLocalName -ID $perfCategoryID
@@ -35,8 +47,7 @@ $localizedCounterName = Get-PerformanceCounterLocalName -ID $perfCounterID
 
 $Counter = ((Get-Counter "\$localizedCategoryName\$localizedCounterName").CounterSamples)
 
-$Path = ($Counter.Path).Trim("\\") -replace " ","_" -replace "\\","." -replace "[\{\}]","" -replace "[\[\]]",""
 $Value = [System.Math]::Truncate($Counter.CookedValue)
-$Time = DateTimeToUnixTimestamp -DateTime (Get-Date)
+$Time = ConvertTo-Unixtime -DateTime (Get-Date)
 
-Write-Host "$Path $Value $Time"
+Write-Host "$Path.system.system_up_time $Value $Time"

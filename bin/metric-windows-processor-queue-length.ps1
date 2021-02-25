@@ -23,21 +23,23 @@
 #   Released under the same terms as Sensu (the MIT license); see LICENSE for details.
 #
 param(
-    [switch]$UseFullyQualifiedHostname
-    )
+  [switch]$UseFullyQualifiedHostname,
+  [string]$Scheme = ($env:computername).ToLower()
+)
 
 $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
 . (Join-Path $PSScriptRoot perfhelper.ps1)
 
-if ($UseFullyQualifiedHostname -eq $false) {
-    $Path = ($env:computername).ToLower()
-}else {
-    $Path = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+if ($UseFullyQualifiedHostname) {
+  $Path = [System.Net.Dns]::GetHostEntry([string]"localhost").HostName.toLower()
+}
+else {
+  $Path = $Scheme
 }
 
 $Value = (Get-CimInstance -ClassName Win32_PerfFormattedData_PerfOS_System).ProcessorQueueLength
-$Time = DateTimeToUnixTimestamp -DateTime (Get-Date)
+$Time = ConvertTo-Unixtime -DateTime (Get-Date)
 
 Write-Host "$Path.cpu.queue_length $Value $Time"

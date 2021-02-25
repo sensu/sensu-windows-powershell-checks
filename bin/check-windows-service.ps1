@@ -12,7 +12,7 @@
     Required.  Service name to check.
 
 .EXAMPLE
-    powershell.exe -file check-windows-service.ps1 sshd 
+    powershell.exe -file check-windows-service.ps1 sshd
 #>
 
 #
@@ -44,25 +44,36 @@
 
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory=$True,Position=1)]
-   [string]$ServiceName
+  [Parameter(Mandatory = $True, Position = 1)]
+  [string[]]
+  $ServiceName,
+
+  # Whether to keep disabled services or not
+  [Parameter()]
+  [switch]
+  $KeepDisabledServices
 )
 
 $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
-$Exists = Get-Service $ServiceName -ErrorAction SilentlyContinue
+$Services = Get-Service $ServiceName -ErrorAction SilentlyContinue
 
-If ($Exists) {
-  If (($Exists).Status -eq "Running") {
-    Write-Host OK: $ServiceName Running.
-    Exit 0 }
-
-  If (($Exists).Status -eq "Stopped") {
-    Write-Host CRITICAL: $ServiceName Stopped.
-    Exit 2 }
+if (!$KeepDisabledServices) {
+  $Services = $Services | Where-Object { $_.StartType -ne 'Disabled' }
 }
 
-If (!$Exists) {
-  Write-Host CRITICAL: $ServiceName not found!
-  Exit 2 }
+if ($Services.Count -eq 0) {
+  Write-Host "UNKNOWN: Found 0 matching services"
+  exit 3
+}
+elseif ($Services.Count -eq ($Services.Status -eq 'Running').Count) {
+  Write-Host "OK: All $($Services.Count) matching service(s) are running"
+  exit 0
+}
+else {
+  $StoppedServices = $Services | Where-Object { $_.Status -ne 'Running' }
+
+  Write-Host "CRITICAL: Found $($StoppedServices.Count) matching non-running service(s): $($StoppedServices.Name -join ', ')"
+  exit 2
+}

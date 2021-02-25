@@ -42,29 +42,49 @@
 
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory=$True,Position=1)]
-   [int]$WARNING,
+  [Parameter(Position = 1)]
+  [int]$WARNING = 70,
 
-   [Parameter(Mandatory=$True,Position=2)]
-   [int]$CRITICAL
+  [Parameter(Position = 2)]
+  [int]$CRITICAL = 80
 )
 
 $ThisProcess = Get-Process -Id $pid
 $ThisProcess.PriorityClass = "BelowNormal"
 
-[int]$pagefileAllocated = (Get-CimInstance -classname Win32_PageFileUsage).AllocatedBaseSize
-[int]$pagefileCurrentUsage = (Get-CimInstance -classname Win32_PageFileUsage).CurrentUsage
+$WarningPages = [System.Collections.ArrayList]@()
+$CriticalPages = [System.Collections.ArrayList]@()
 
-[int]$Value = ($pagefileCurrentUsage/$pagefileAllocated) * 100
+$PageFiles = Get-CimInstance -classname Win32_PageFileUsage
 
-If ($Value -gt $CRITICAL) {
-  Write-Host CheckWindowsPagefile CRITICAL: Pagefile usage at $Value%.
-  Exit 2 }
+ForEach ($PageFile in $PageFiles) {
+  [int]$pagefileAllocated = $PageFile.AllocatedBaseSize
+  [int]$pagefileCurrentUsage = $PageFile.CurrentUsage
+  [int]$Value = ($pagefileCurrentUsage / $pagefileAllocated) * 100
 
-If ($Value -gt $WARNING) {
-  Write-Host CheckWindowsPagefile WARNING: Pagefile usage at $Value%.
-  Exit 1 }
+  if ($Value -gt $CRITICAL) {
+    $CriticalPages.Add("Pagefile '$($PageFile.Name)' is above critical threshold: $($Value)%") | Out-Null
+  }
+  elseif ($Value -gt $WARNING) {
+    $WarningPages.Add("Pagefile '$($PageFile.Name)' is above warning threshold: $($Value)%") | Out-Null
+  }
+}
 
-Else {
-  Write-Host CheckWindowsPagefile OK: Pagefile usage at $Value%.
-  Exit 0 }
+if ($WarningPages.Count + $CriticalPages.Count -eq 0) {
+  Write-Host "All pagefiles are within thresholds"
+  exit 0
+}
+
+if ($CriticalPages.Count -gt 0) {
+  Write-Host $($CriticalPages -join "`n")
+}
+if ($WarningPages.Count -gt 0) {
+  Write-Host $($WarningPages -join "`n")
+}
+
+if ($CriticalVolumes.Count -gt 0) {
+  exit 2
+}
+else {
+  exit 1
+}
